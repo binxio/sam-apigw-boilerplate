@@ -1,0 +1,57 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Stack
+
+Globals:
+  Function:
+    Runtime: python3.6
+    MemorySize: 512
+    Timeout: 3
+
+Resources:
+  SimpleLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: simple.lambda_handler
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:*
+              Resource:
+                - !Join
+                  - "/"
+                  - - !GetAtt 'MyTable.Arn'
+                    - "*"
+            - Effect: Allow
+              Action:
+                - s3:*
+              Resource:
+                - !Join
+                  - "/"
+                  - - !GetAtt 'MyBucket.Arn'
+                    - "*"
+      Events:
+        SimpleApi:
+          Type: Api
+          Properties:
+            Path: "/SimpleApi"
+            Method: GET
+      Environment:
+        Variables:
+          DDB_TABLE: !Ref MyTable
+          S3_BUCKET: !Ref MyBucket
+  
+  MyBucket:
+    Type: AWS::S3::Bucket
+  
+  MyTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1

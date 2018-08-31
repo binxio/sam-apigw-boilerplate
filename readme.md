@@ -13,8 +13,6 @@ The project consists of the following files:
 ├── simple.py
 ├── settings.example.cfg
 ├── template.yaml
-└── vendored
-    └── dependencies.txt
 ```
 
 # Usage

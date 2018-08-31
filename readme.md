@@ -7,6 +7,7 @@ The project consists of the following files:
 ```
 .
 ├── Makefile
+├── mylib.py
 ├── readme.md
 ├── requirements.txt
 ├── simple.py
@@ -25,13 +26,13 @@ Ensure you have Docker installed on your machine.
 Install/update the following tools:
 
 ```
-pip install --user --upgrade awscli aws-sam-cli httpie
+$ pip install --user --upgrade awscli aws-sam-cli httpie
 ```
 
 Now create your own settings.cfg and update the variables.
 
 ```
-cp settings.example.cfg settings.cfg
+$ cp settings.example.cfg settings.cfg
 ```
 
 ## Download Dependencies
@@ -39,7 +40,7 @@ cp settings.example.cfg settings.cfg
 Use the following command to download all dependencies from requirements.txt to a sub folder `/vendored/`. Often the default lambda boto3 is outdated, and with this solution you download the most recent boto3 version which contains all current features.
 
 ```
-make build
+$ make build
 ```
 
 Use the next script at the top of your lambda script to ensure the vendored libraries are loaded.
@@ -54,7 +55,7 @@ sys.path.insert(0,"vendored")
 Use the following command to deploy the sandbox. When you are using S3 or DynamoDB to store data, this is already working as an example. The API Gateway and Lambda functions are also deployed, but simply not used. The beautiful thing of sam package, is that it will package the whole directory and upload it to the s3 location. In the packaged.yaml the S3 location is added automatically. 
 
 ```
-make sandbox
+$ make sandbox
 ```
 
 ## Local Test
@@ -93,7 +94,7 @@ Because it's cloudformation, you can easily add other resources. Makes sure the 
 You can use this if you have a small experiment or personal project, and should be used as an starter for your bigger production deployments.
 
 ```
-make deploy
+$ make deploy
 ```
 
 ## Clean
@@ -101,7 +102,7 @@ make deploy
 With the following command the vendored folder and stacks are cleaned up.
 
 ```
-make clean
+$ make clean
 ```
 
 ## Next Steps
